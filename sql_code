@@ -1,0 +1,32 @@
+-- 1.
+
+SELECT name, MAX( salary )
+FROM employee
+WHERE salary < ( SELECT MAX( salary )
+                 FROM employee );
+
+-- 2.
+
+-- SELECT tt.*
+-- FROM employee tt
+-- INNER JOIN
+--     (SELECT id, MAX(salary) AS MaxSalary
+--     FROM employee
+--     GROUP BY department_id) groupedtt 
+-- ON tt.id = groupedtt.id 
+-- AND tt.salary = groupedtt.MaxSalary;
+SELECT id, MAX(salary) AS MaxSalary
+    FROM employee
+    GROUP BY department_id
+
+-- 3.
+SELECT *
+FROM employee tt
+INNER JOIN (
+	SELECT department_id, MAX(salary) AS MaxSalary
+	FROM employee
+	GROUP BY department_id
+) groupedtt
+ON tt.department_id = groupedtt.department_id
+AND MaxSalary < 4
+
